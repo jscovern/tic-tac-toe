@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jamie's Tic-Tac-Toe!</title>
+	<link rel="stylesheet" type="text/css" href="assets/style/style.css">
+	<script type="text/javascript" src="assets/scripts/script.js"></script>
+</head>
+<body>
+	<div id="player1Form" class="playerForm">
+		<form action="#" method="get">
+			<div id="player1">
+				<p class="buttonLabel">Player 1, what's your name?</p>
+				<input type="text" name="player1" id="player1Input">
+			</div>
+
+			<div id="submitPlayer1">
+				<button type="Submit" id="submitButton1">Submit Name</button>
+			</div>
+		</form>
+	</div>
+
+	<div id="player2Form" class="hidden playerForm">
+		<form action="#" method="get">
+			<div id="player2">
+				<p class="buttonLabel">Player 2, what's your name?</p>
+				<input type="text" name="player2" id="player2Input">
+			</div>
+
+			<div id="submitPlayer2">
+				<button type="Submit" id="submitButton2">Submit Name</button>
+			</div>
+		</form>
+	</div>
+		
+	</div>
+
+	<div id="leftContainer" class="floatLeft hidden">
+		<div id="ticTacToe" class="">Tic-Tac-Toe</div>
+		<div id="board" class="">
+			<div id="row1">
+				<div id="box1" class="box col1" data-id=1></div>
+				<div id="box2" class="box col2" data-id=2></div>
+				<div id="box3" class="box col3" data-id=3></div>			
+			</div>
+			<div id="row2">
+				<div id="box4" class="box col1" data-id=4></div>
+				<div id="box5" class="box col2" data-id=5></div>
+				<div id="box6" class="box col3" data-id=6></div>			
+			</div>
+			<div id="row3">
+				<div id="box7" class="box col1" data-id=7></div>
+				<div id="box8" class="box col2" data-id=8></div>
+				<div id="box9" class="box col3" data-id=9></div>						
+			</div>		
+		</div>
+	</div>
+
+	<div id="gamePlay" class="floatRight hidden">
+		<div id="scores">
+			<div id="player1Score" class="score"></div>
+			<div id="player2Score" class="score"></div>
+		</div>
+		<div id="currPlayer"></div>
+		<div id="messageBoard">
+			<div id="starterMessage">Let's Play some Tic-Tac-Toe!</div>
+		</div>	
+		<button id="resetGame">Reset Game</button>	
+	</div>
+</body>
+</html>

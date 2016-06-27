@@ -4,6 +4,9 @@
 	<title>Jamie's Tic-Tac-Toe!</title>
 	<link rel="stylesheet" type="text/css" href="assets/style/style.css">
 	<script type="text/javascript" src="assets/scripts/script.js"></script>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Slab' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Hind' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=BioRhyme+Expanded' rel='stylesheet' type='text/css'>
 </head>
 <body>
 	<div id="player1Form" class="playerForm">
@@ -58,13 +61,13 @@
 	<div id="gamePlay" class="floatRight hidden">
 		<div id="scoreWrapper">
 			<div id="scores">
-				<div id="player1Score" class="score"></div>
-				<div id="player2Score" class="score"></div>
+				<div id="player1Score" class="score player1"></div>
+				<div id="player2Score" class="score player2"></div>
+				<div id="currPlayer"></div>
 			</div>
-			<div id="currPlayer"></div>
 		</div>
 		<div id="messageBoard">
-			<div id="starterMessage">Let's Play some Tic-Tac-Toe!</div>
+			<div id="starterMessage" class="leftMessage">Let's Play some Tic-Tac-Toe!</div>
 		</div>	
 		<button id="resetGame">Reset Game</button>	
 	</div>

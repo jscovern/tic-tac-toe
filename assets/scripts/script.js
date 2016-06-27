@@ -18,10 +18,10 @@ window.onload = function(){
 
 			if(this.playerID % 2 === 0) {
 				this.marker = "O";
-				this.color = "red";
+				this.color = "player2";
 			} else {
 				this.marker = "X";
-				this.color = "green";
+				this.color = "player1";
 			}
 		},
 		incrementWinsCount: function() {
@@ -108,8 +108,8 @@ window.onload = function(){
 			document.querySelector("#box8").addEventListener("click",this.makeMove);
 			document.querySelector("#box9").addEventListener("click",this.makeMove);
 			document.querySelector("#resetGame").addEventListener("click",this.resetGame);
-			document.querySelector("#submitButton1").addEventListener("click",submitButton1);
-			document.querySelector("#submitButton2").addEventListener("click",submitButton2);
+			document.querySelector("#submitButton1").addEventListener("click",this.submitButton1);
+			document.querySelector("#submitButton2").addEventListener("click",this.submitButton2);
 			player1 = new Player();
 			player1.assignPlayerID(thisGame);
 			thisGame.incrementPlayerCount();
@@ -142,13 +142,37 @@ window.onload = function(){
 
 			thisGame.incrementTurn();
 			thisHTMLBoard.addText("Who's Up: "+thisGame.currPlayer,"#currPlayer");}
+		},
+
+		submitButton1: function() {
+			event.preventDefault();
+			thisHTMLBoard.addClass("#player1Form","hidden");
+			thisHTMLBoard.removeClass("#player2Form","hidden");
+			player1.assignPlayerName("#player1Input");
+			thisHTMLBoard.addAutoFocus("#player2Input");	
+		},
+
+		submitButton2: function() {
+			event.preventDefault();
+			thisHTMLBoard.addClass("#player2Form","hidden");
+			thisHTMLBoard.removeClass("#leftContainer","hidden");
+			thisHTMLBoard.removeClass("#gamePlay","hidden");
+			player2.assignPlayerName("#player2Input");
+			thisGame.player1=player1.name;
+			thisGame.player2=player2.name;
+			thisGame.incrementTurn();
+			thisHTMLBoard.addText(player1.name+": "+player1.winsCount,"#player1Score");
+			thisHTMLBoard.addText(player2.name+": "+player2.winsCount,"#player2Score");
+			thisHTMLBoard.addText("Who's Up: "+thisGame.currPlayer,"#currPlayer");
 		}
+
 
 	};
 
 	function HTML() {
 		this.HTMLBoard = document.querySelectorAll(".box");
 		this.messageBoard = document.querySelector('#messageBoard');
+		this.messageBoardCount = 0;
 	};
 
 	HTML.prototype = {
@@ -157,8 +181,8 @@ window.onload = function(){
 			for(var i=1; i<=this.HTMLBoard.length; i++) {
 				str = "#box"+i;
 				thisHTMLBoard.addText("",str);
-				thisHTMLBoard.removeClass(str,"green");
-				thisHTMLBoard.removeClass(str,"red");
+				thisHTMLBoard.removeClass(str,"player1");
+				thisHTMLBoard.removeClass(str,"player2");
 			}
 		},
 
@@ -182,28 +206,52 @@ window.onload = function(){
 
 		addMoveMessage: function(boxSelected) {
 			var newDiv = document.createElement('div');
+			newDiv.setAttribute("class",this.chooseRightOrLeft(true));
 			newDiv.textContent = thisGame.currPlayer+" just selected Box " + boxSelected;
 			this.messageBoard.insertBefore(newDiv,this.messageBoard.firstChild);
+			this.incrementMessageBoardCount();
 		},
 
 		addWinnerMessage: function() {
 			var newDiv=document.createElement('div');
-			newDiv.textContent = thisGame.currPlayer+" just won! The overall game score is "+thisGame.player1+": "+player1.winsCount+" to "+thisGame.player2+" "+player2.winsCount;
+			newDiv.setAttribute("class",this.chooseRightOrLeft(false));
+			newDiv.textContent = thisGame.currPlayer+" won! The score is "+thisGame.player1+" "+player1.winsCount+" to "+thisGame.player2+" "+player2.winsCount;
 			this.messageBoard.insertBefore(newDiv,this.messageBoard.firstChild);
+			this.incrementMessageBoardCount();
 		},
 
 		addResetGameMessage: function() {
 			var newDiv = document.createElement('div');
+			newDiv.setAttribute("class",this.chooseRightOrLeft(false));
 			newDiv.textContent = "The game has been reset!  Start again!";
 			this.messageBoard.insertBefore(newDiv,this.messageBoard.firstChild);
+			this.incrementMessageBoardCount();		
 		},
 
 		addGameOverMessage: function() {
 			var newDiv = document.createElement('div');
+			newDiv.setAttribute("class",this.chooseRightOrLeft(false));
 			newDiv.textContent = "There is no winner! Reset the game to play again.";
 			this.messageBoard.insertBefore(newDiv,this.messageBoard.firstChild);
+			this.incrementMessageBoardCount();
+		},
+
+		incrementMessageBoardCount: function() {
+			this.messageBoardCount += 1;
+			console.log(this);
+		},
+
+		chooseRightOrLeft: function(getPlayer) {
+			return this.messageBoardCount % 2 === 0 ? "rightMessage "+this.choosePlayer1Or2(getPlayer) : "leftMessage "+this.choosePlayer1Or2(getPlayer);
+		},
+
+		choosePlayer1Or2: function(getPlayer) {
+			console.log(thisGame.currPlayerObj.ID);
+			if (getPlayer) {
+				return thisGame.currPlayerObj.playerID===1 ? "player1" : "player2";
+			}
 		}
-	}
+	};
 
 	var winningPossibilities = [ [1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7] ];
 
@@ -214,28 +262,5 @@ window.onload = function(){
 	var thisBoard = new Board();
 	var thisHTMLBoard = new HTML();
 	thisHTMLBoard.addAutoFocus("#player1Input");	
-
-
-	function submitButton1() {
-		event.preventDefault();
-		thisHTMLBoard.addClass("#player1Form","hidden");
-		thisHTMLBoard.removeClass("#player2Form","hidden");
-		player1.assignPlayerName("#player1Input");
-		thisHTMLBoard.addAutoFocus("#player2Input");	
-	}
-
-	function submitButton2() {
-		event.preventDefault();
-		thisHTMLBoard.addClass("#player2Form","hidden");
-		thisHTMLBoard.removeClass("#leftContainer","hidden");
-		thisHTMLBoard.removeClass("#gamePlay","hidden");
-		player2.assignPlayerName("#player2Input");
-		thisGame.player1=player1.name;
-		thisGame.player2=player2.name;
-		thisGame.incrementTurn();
-		thisHTMLBoard.addText(player1.name+": "+player1.winsCount,"#player1Score");
-		thisHTMLBoard.addText(player2.name+": "+player2.winsCount,"#player2Score");
-		thisHTMLBoard.addText("Who's Up: "+thisGame.currPlayer,"#currPlayer");
-	}
 
 }
